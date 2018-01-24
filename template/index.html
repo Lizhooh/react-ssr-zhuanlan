@@ -7,13 +7,15 @@
     <title>ssr</title>
     <link rel="icon" href="/static/favicon.ico" />
     <link rel="stylesheet" href="/static/app.css" />
-    {:styles}
+    {:style}
 </head>
 <body>
     <div id="app">
         {:body}
     </div>
-
+    <script>
+        window.__INIT_STATE__ = ({:state});
+    </script>
     <script src="{:sctipt}"></script>
 </body>
 </html>

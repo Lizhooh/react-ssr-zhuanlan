@@ -6,9 +6,10 @@
     "private": true,
     "scripts": {
         "start": "node ./bin/start",
-        "dev": "nodemon .\\bin\\start.js"
+        "dev": "nodemon ./bin/start.js"
     },
     "dependencies": {
+        "is-env": "^1.0.1",
         "isomorphic-fetch": "^2.2.1",
         "koa": "^2.4.1",
         "koa-favicon": "^2.0.0",
@@ -19,8 +20,11 @@
         "parcel-bundler": "^1.4.1",
         "react": "^16.2.0",
         "react-dom": "^16.2.0",
+        "react-redux": "^5.0.6",
         "react-router": "^4.2.0",
         "react-router-dom": "^4.2.2",
+        "redux": "^3.7.2",
+        "redux-thunk": "^2.2.0",
         "styled-components": "^2.4.0"
     },
     "devDependencies": {
@@ -38,7 +42,7 @@
             "test/*",
             "docs/*",
             "static/*",
-            "views/*",
+            "template/*",
             "public/*"
         ]
     }

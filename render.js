@@ -10,19 +10,26 @@ const exists = util.promisify(fs.exists);
 
 let flag = false;
 
+function replaces(str, obj) {
+    Object.keys(obj).forEach(key => {
+        str = str.replace(new RegExp(`\\{:${key}\\}`), obj[key]);
+    });
+    return str;
+}
+
 /**
- * 渲染函数
+ * 服务端渲染函数
  * @param{Object} ctx
- * @param{String} page 页面名次
  * @return{Object} Promise
  */
-export default async function (ctx, page) {
-    const path = `./pages/${page}.js`;
+export default async function (ctx) {
+    const path = `./pages/main.js`;
     if (!(await exists(path))) {
         return Promise.reject('page be not in');
     }
 
     if (process.env.NODE_ENV !== 'production') {
+        // 编译前端 js 代码
         if (!flag && (flag = true)) {
             const parcel = cp.exec(`parcel build ${path} -d public`);
             parcel.on('exit', () => flag = false);
@@ -34,16 +41,19 @@ export default async function (ctx, page) {
     const sheet = new ServerStyleSheet();
     const body = renderToString(
         <StaticRouter context={{}} location={ctx.url}>
-            {sheet.collectStyles(<App />)}
+            {sheet.collectStyles(
+                <App data={{ state: ctx.state }} />
+            )}
         </StaticRouter>
     );
-    const styleTags = sheet.getStyleTags();
 
-    const html = ctx.app.cache.get('page-index')
-        .replace(/\{:styles\}/, styleTags)
-        .replace(/\{:body\}/, body)
-        .replace(/\{:sctipt\}/, `/static/${page}.js`);
-    ;
+    const html = replaces(ctx.app.cache.get('page-index'), {
+        style: sheet.getStyleTags(),
+        body: body,
+        state: JSON.stringify(ctx.state),
+        sctipt: `/static/main.js`,
+    });
 
     return html || '';
 }
+
