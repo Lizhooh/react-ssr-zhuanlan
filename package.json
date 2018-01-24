@@ -9,6 +9,7 @@
         "dev": "nodemon .\\bin\\start.js"
     },
     "dependencies": {
+        "isomorphic-fetch": "^2.2.1",
         "koa": "^2.4.1",
         "koa-favicon": "^2.0.0",
         "koa-logger": "^3.1.0",

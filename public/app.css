@@ -1,0 +1,20 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+a {
+    cursor: pointer;
+    color: #f45;
+    text-decoration: none;
+    font-size: 20px;
+    border-bottom: 1px dashed #f45;
+    margin: 0px 12px;
+}
+
+div, p {
+    text-align: center;
+}
