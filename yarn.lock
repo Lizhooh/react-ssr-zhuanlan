@@ -2136,6 +2136,10 @@ is-fullwidth-code-point@^1.0.0:
   dependencies:
     number-is-nan "^1.0.0"
 
+is-function@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/is-function/-/is-function-1.0.1.tgz#12cfb98b65b57dd3d193a3121f5f6e2f437602b5"
+
 is-generator-function@^1.0.3:
   version "1.0.7"
   resolved "http://registry.npm.taobao.org/is-generator-function/download/is-generator-function-1.0.7.tgz#d2132e529bb0000a7f80794d4bdf5cd5e5813522"
@@ -3378,6 +3382,12 @@ reduce-function-call@^1.0.1:
   resolved "http://registry.npm.taobao.org/reduce-function-call/download/reduce-function-call-1.0.2.tgz#5a200bf92e0e37751752fe45b0ab330fd4b6be99"
   dependencies:
     balanced-match "^0.4.2"
+
+redux-store-init@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.npmjs.org/redux-store-init/-/redux-store-init-1.0.2.tgz#5d41cf70b3b5b3a2a3e0df4714fa5c60a8c3b8cd"
+  dependencies:
+    is-env "^1.0.1"
 
 redux-thunk@^2.2.0:
   version "2.2.0"

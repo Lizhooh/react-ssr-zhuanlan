@@ -26,13 +26,13 @@ router
             api.any('/api/columns/qianduanzhidian/posts'),
         ]).then(([info, list]) => {
             // 专栏信息, 专栏文章列表
-            ctx.state = { info, list };
+            ctx.state.index = { info, list };
         });
         await next();
     })
     .get('/detail/:id', async (ctx, next) => {
         // 初始化详细页数据
-        ctx.state = await api.detail(ctx.params.id);
+        ctx.state.detail = await api.detail(ctx.params.id);
         await next();
     })
     .get('/*', async (ctx, next) => {

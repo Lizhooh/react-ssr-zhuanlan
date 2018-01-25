@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { index } from '../redux/actions';
 
-export default class IndexView extends Component {
-    static getInitialPropsState({ state }) {
-        return state;
-    }
-
-    componentDidMount() {
-        console.log(this.props.state);
-    }
+class IndexView extends Component {
 
     render() {
         return (
@@ -18,3 +13,9 @@ export default class IndexView extends Component {
         );
     }
 }
+
+export default connect(
+    state => ({ state: state.index }),
+    index,
+)(IndexView);
+
