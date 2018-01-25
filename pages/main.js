@@ -14,8 +14,8 @@ import isFunction from 'is-function';
 import isEnv from 'is-env';
 import routes from './routes';
 
-const App = ({ data = {} }) => (
-    <Provider store={Store({ reducers: reducers(data) })}>
+const App = ({ data = {} }) => {
+    return <Provider store={Store({ reducers: reducers(data) })}>
         <Switch>{
             // 根据路由表动态渲染路由
             routes.map((item, index) => {
@@ -32,7 +32,7 @@ const App = ({ data = {} }) => (
         }
         </Switch>
     </Provider>
-);
+};
 
 export default App;
 

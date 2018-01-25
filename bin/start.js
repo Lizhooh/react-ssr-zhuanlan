@@ -1,7 +1,7 @@
 require('babel-core/register')({
     ignore: [/(node_modules)/],
     presets: [
-        'stage-2',
+        'stage-1',
         'react',
         [
             "latest-node",

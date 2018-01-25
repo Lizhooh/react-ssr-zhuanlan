@@ -1,20 +1,59 @@
 html, body {
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #444;
+    background-color: #fff;
+    font-size: 15px;
 }
 
 a {
     cursor: pointer;
-    color: #f45;
+    color: #3af;
     text-decoration: none;
-    font-size: 20px;
-    border-bottom: 1px dashed #f45;
-    margin: 0px 12px;
+    margin: 0 3px;
 }
 
-div, p {
-    text-align: center;
+h1, h2, h3, h4, h5, h6, p {
+    font-weight: normal;
 }
+
+* {
+    box-sizing: border-box;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-center {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.flex-1 {
+    display: flex;
+    flex: 1;
+}
+
+.flex-jc-center {
+    display: flex;
+    justify-content: center;
+}
+
+.flex-ai-center {
+    display: flex;
+    align-items: center;
+}
+

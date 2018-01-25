@@ -19,7 +19,7 @@
         "koa-mount": "^3.0.0",
         "koa-router": "^7.3.0",
         "koa-static": "^4.0.2",
-        "parcel-bundler": "^1.4.1",
+        "only-space": "^1.0.1",
         "react": "^16.2.0",
         "react-dom": "^16.2.0",
         "react-redux": "^5.0.6",
@@ -36,7 +36,7 @@
         "babel-preset-env": "^1.6.1",
         "babel-preset-latest-node": "^0.4.0",
         "babel-preset-react": "^6.24.1",
-        "babel-preset-stage-2": "^6.24.1"
+        "babel-preset-stage-1": "^6.24.1"
     },
     "author": "lizhooh",
     "license": "ISC",

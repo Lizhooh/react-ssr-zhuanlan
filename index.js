@@ -21,18 +21,23 @@ router
     })
     .get('/', async (ctx, next) => {
         // 初始化数据首页数据
-        await Promise.all([
+        const [info, list] = await Promise.all([
             api.any('/api/columns/qianduanzhidian'),
             api.any('/api/columns/qianduanzhidian/posts'),
-        ]).then(([info, list]) => {
-            // 专栏信息, 专栏文章列表
-            ctx.state.index = { info, list };
-        });
+        ]);
+        // 专栏信息, 专栏文章列表
+        ctx.state.index = { info, list };
         await next();
     })
     .get('/detail/:id', async (ctx, next) => {
         // 初始化详细页数据
-        ctx.state.detail = await api.detail(ctx.params.id);
+        const { id } = ctx.params;
+        ctx.state.detail = ctx.state.detail || {};
+        const [data, recommend] = await Promise.all([
+            api.any(`/api/posts/${id}`),
+            api.any(`/api/recommendations/posts?seed=${Math.random() * 150 | 0}`)
+        ]);
+        ctx.state.detail[id] = { ...data, recommend };
         await next();
     })
     .get('/*', async (ctx, next) => {
@@ -53,6 +58,4 @@ app
     .listen(3000, () => {
         console.log('server run in 3000.');
     });
-
-
 

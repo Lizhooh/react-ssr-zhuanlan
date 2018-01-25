@@ -37,12 +37,13 @@ export default async function (ctx) {
         }
     }
 
+    delete require.cache[path];
     const App = require(path).default;
     const sheet = new ServerStyleSheet();
     const body = renderToString(
         <StaticRouter context={{}} location={ctx.url}>
             {sheet.collectStyles(
-                <App data={{ state: ctx.state }} />
+                <App data={ctx.state} />
             )}
         </StaticRouter>
     );
