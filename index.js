@@ -32,17 +32,17 @@ router
     .get('/detail/:id', async (ctx, next) => {
         // 初始化详细页数据
         const { id } = ctx.params;
-        ctx.state.detail = ctx.state.detail || {};
         const [data, recommend] = await Promise.all([
             api.any(`/api/posts/${id}`),
-            api.any(`/api/recommendations/posts?seed=${Math.random() * 150 | 0}`)
+            api.any(`/api/recommendations/posts`)
         ]);
-        ctx.state.detail[id] = { ...data, recommend };
+        // 详细信息，推荐列表
+        ctx.state.detail = { ...data, recommend };
         await next();
     })
     .get('/*', async (ctx, next) => {
         await render(ctx, 'main')
-            .then(res => ctx.body = res)
+            .then(html => ctx.body = html)
             .catch(err => {
                 console.error(err);
                 ctx.status = 500;

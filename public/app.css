@@ -1,7 +1,7 @@
 html, body {
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', '微软雅黑', Tahoma, Geneva, Verdana, sans-serif;
     color: #444;
     background-color: #fff;
     font-size: 15px;
@@ -15,10 +15,12 @@ a {
 }
 
 h1, h2, h3, h4, h5, h6, p {
-    font-weight: normal;
+    /*font-weight: normal;*/
 }
 
 * {
+    font-family: inherit;
+    font-size: inherit;
     box-sizing: border-box;
 }
 
@@ -55,5 +57,14 @@ button {
 .flex-ai-center {
     display: flex;
     align-items: center;
+}
+
+pre {
+    background-color: #f8f8f8;
+    padding: 12px;
+    border-radius: 3px;
+    font-family: 'consolas';
+    white-space: pre-wrap;
+    overflow-x: auto;
 }
 

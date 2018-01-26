@@ -12,43 +12,42 @@ class DetailView extends Component {
 
     constructor(props) {
         super(props);
-        this.id = this.props.match.params.id;
         if (isEnv('browser')) {
             document.body.scrollTop = 0;
-            if (!this.props.state[this.id]) {
-                this.props.init(this.id);
+            this.props.init(this.props.match.params.id);
+        }
+    }
+
+    setImageUrl = () => {
+        if (isEnv('browser')) {
+            const content = document.querySelector('#content');
+            if (content) {
+                const imgs = content.querySelectorAll('img');
+                imgs.forEach(i => {
+                    if (i.getAttribute('data-original')) {
+                        i.setAttribute('src', i.getAttribute('data-original'));
+                    }
+                });
             }
         }
     }
 
-    // componentDidMount() {
-    //     const content = document.querySelector('#content');
-    //     if (content) {
-    //         const imgs = content.querySelectorAll('img');
-    //         imgs.forEach(i => i.src = i.getAttribute('data-original'));
-    //     }
-    // }
+    componentWillReceiveProps(nextProps) {
+        const id1 = this.props.match.params.id;
+        const id2 = nextProps.match.params.id;
+        if (id1 !== id2) {
+            this.props.init(id2);
+            document.body.scrollTop = 0;
+        }
+    }
 
-    // componentWillReceiveProps(nextProps) {
-    //     const content = document.querySelector('#content');
-    //     if (content) {
-    //         const imgs = content.querySelectorAll('img');
-    //         imgs.forEach(i => i.src = i.getAttribute('data-original'));
-    //     }
-    // }
-
-    // componentDidUpdate(prevProps, prevState) {
-    //     const content = document.querySelector('#content');
-    //     if (content) {
-    //         const imgs = content.querySelectorAll('img');
-    //         imgs.forEach(i => i.src = i.getAttribute('data-original'));
-    //     }
-    // }
+    componentDidUpdate(prevProps, prevState) {
+        this.setImageUrl();
+    }
 
     render() {
-        const data = this.props.state[this.id];
+        const data = this.props.state;
         if (!data) return null;
-
 
         return (
             <div>
@@ -58,17 +57,22 @@ class DetailView extends Component {
                         <div className="flex-jc-center flex-column body">
                             <h1 className="title">{onlyspace(data.title)}</h1>
                             <div className="flex-ai-center">
-                                <img src={getImageUrl(data.author.avatar)} className="avater" />
-                                <span>{data.author.name}</span>
+                                {
+                                    data.author && data.author.avatar &&
+                                    <img src={getImageUrl(data.author.avatar)} className="avater" />
+                                }
+                                {
+                                    data.author && data.author.name &&
+                                    <span>{data.author.name}</span>
+                                }
                             </div>
                         </div>
                     </div>
                 </Header>
                 <Content
                     id="content"
-                    dangerouslySetInnerHTML={{ __html: onlyspace(data.content) }}
+                    dangerouslySetInnerHTML={{ __html: data.content }}
                     />
-
                 <Footer>
                     <Mark text="推荐阅读" />
                     {(data.recommend || []).map((item, index) => (
@@ -100,7 +104,7 @@ const Header = styled.div`
         width: 100%;
         max-width: 800px;
         margin: 0 auto;
-        padding: 20px;
+        padding: 30px 20px;
     }
     .title {
         font-size: 24px;

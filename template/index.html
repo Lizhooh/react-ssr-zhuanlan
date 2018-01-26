@@ -8,15 +8,19 @@
     <title>仿知乎专栏 REACT SSR</title>
     <link rel="icon" href="/static/favicon.ico" />
     <link rel="stylesheet" href="/static/app.css" />
+    <link href="https://cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet" />
+
     {:style}
 </head>
 <body>
     <div id="app">
         {:body}
     </div>
+
     <script>
         window.__INIT_STATE__ = ({:state});
     </script>
+    <script src="https://cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
     <script src="{:sctipt}"></script>
 </body>
 </html>
