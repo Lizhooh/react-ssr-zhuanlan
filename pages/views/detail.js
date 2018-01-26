@@ -19,16 +19,14 @@ class DetailView extends Component {
     }
 
     setImageUrl = () => {
-        if (isEnv('browser')) {
-            const content = document.querySelector('#content');
-            if (content) {
-                const imgs = content.querySelectorAll('img');
-                imgs.forEach(i => {
-                    if (i.getAttribute('data-original')) {
-                        i.setAttribute('src', i.getAttribute('data-original'));
-                    }
-                });
-            }
+        const content = document.querySelector('#content');
+        if (content) {
+            const imgs = content.querySelectorAll('img');
+            imgs.forEach(i => {
+                if (i.getAttribute('data-original')) {
+                    i.setAttribute('src', i.getAttribute('data-original'));
+                }
+            });
         }
     }
 

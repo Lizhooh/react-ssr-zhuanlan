@@ -13,8 +13,8 @@ export default {
         try {
             if (cache[path]) {
                 const { time, data } = cache[path];
-                // 缓存时间： 60 分钟
-                if (Date.now() - time < 1000 * 60 * 60 && data.length > 0) {
+                // 缓存时间： 7 天
+                if (Date.now() - time < 7 * 1440 * 60 * 1000 && data) {
                     console.log(path, '缓存命中');
                     return data;
                 }

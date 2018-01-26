@@ -16,6 +16,14 @@ app.cache.set('page-500', fs.readFileSync('./template/500.html').toString());
 app.cache.set('page-index', fs.readFileSync('./template/index.html').toString());
 
 router
+    .use(async (ctx, next) => {
+        // 缓存渲染的 html
+        if (ctx.app.cache.has(ctx.url)) {
+            console.log(ctx.url, '缓存命中');
+            return ctx.body = ctx.app.cache.get(ctx.url);
+        }
+        await next();
+    })
     .get('/api/*', async ctx => {
         ctx.body = await api.any(ctx.url);
     })
@@ -30,6 +38,9 @@ router
         await next();
     })
     .get('/detail/:id', async (ctx, next) => {
+        if (~ctx.url.indexOf('.jpg')) {
+            return ctx.status = 403;
+        }
         // 初始化详细页数据
         const { id } = ctx.params;
         const [data, recommend] = await Promise.all([

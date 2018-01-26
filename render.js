@@ -8,6 +8,7 @@ const fs = require('fs');
 const util = require('util');
 const exists = util.promisify(fs.exists);
 
+const path = `./pages/main.js`;
 let flag = false;
 
 function replaces(str, obj) {
@@ -17,27 +18,32 @@ function replaces(str, obj) {
     return str;
 }
 
+function buildJS(path) {
+    if (!flag && (flag = true)) {
+        const parcel = cp.exec(`parcel build ${path} -d public`);
+        parcel.on('exit', () => {
+            console.log('前端 js 编译完成');
+            flag = false;
+        });
+        parcel.on('error', err => flag = false);
+    }
+}
+
+process.env.NODE_ENV === 'production' && buildJS();
+
 /**
  * 服务端渲染函数
  * @param{Object} ctx
  * @return{Object} Promise
  */
 export default async function (ctx) {
-    const path = `./pages/main.js`;
+
     if (!(await exists(path))) {
         return Promise.reject('page be not in');
     }
 
-    if (process.env.NODE_ENV !== 'production') {
-        // 编译前端 js 代码
-        if (!flag && (flag = true)) {
-            const parcel = cp.exec(`parcel build ${path} -d public`);
-            parcel.on('exit', () => flag = false);
-            parcel.on('error', err => flag = false);
-        }
-    }
+    process.env.NODE_ENV !== 'production' && buildJS(path);
 
-    delete require.cache[path];
     const App = require(path).default;
     const sheet = new ServerStyleSheet();
     const body = renderToString(
@@ -55,6 +61,7 @@ export default async function (ctx) {
         sctipt: `/static/main.js`,
     });
 
+    ctx.app.cache.set(ctx.url, html);
     return html || '';
 }
 
