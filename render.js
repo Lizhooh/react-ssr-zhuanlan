@@ -8,7 +8,6 @@ const fs = require('fs');
 const util = require('util');
 const exists = util.promisify(fs.exists);
 
-const path = `./pages/main.js`;
 let flag = false;
 
 function replaces(str, obj) {
@@ -18,11 +17,11 @@ function replaces(str, obj) {
     return str;
 }
 
-function buildJS(path) {
+function buildJS() {
     if (!flag && (flag = true)) {
-        const parcel = cp.exec(`parcel build ${path} -d public`);
+        const parcel = cp.exec(`parcel build ./pages/main.js -d public`);
         parcel.on('exit', () => {
-            console.log('前端 js 编译完成');
+            console.log('web resource compilation completed.');
             flag = false;
         });
         parcel.on('error', err => flag = false);
@@ -34,17 +33,12 @@ process.env.NODE_ENV === 'production' && buildJS();
 /**
  * 服务端渲染函数
  * @param{Object} ctx
- * @return{Object} Promise
+ * @return{String}
  */
-export default async function (ctx) {
+export default function (ctx) {
+    process.env.NODE_ENV !== 'production' && buildJS();
 
-    if (!(await exists(path))) {
-        return Promise.reject('page be not in');
-    }
-
-    process.env.NODE_ENV !== 'production' && buildJS(path);
-
-    const App = require(path).default;
+    const App = require('./pages/app.js').default;
     const sheet = new ServerStyleSheet();
     const body = renderToString(
         <StaticRouter context={{}} location={ctx.url}>

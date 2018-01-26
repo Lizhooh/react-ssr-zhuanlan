@@ -15,7 +15,7 @@ export default {
                 const { time, data } = cache[path];
                 // 缓存时间： 7 天
                 if (Date.now() - time < 7 * 1440 * 60 * 1000 && data) {
-                    console.log(path, '缓存命中');
+                    console.log(path, 'cache hits.'.green);
                     return data;
                 }
             }

@@ -97,6 +97,7 @@ const Header = styled.div`
         left: 0; right: 0;
         background-color: rgba(1, 1, 1, 0.24);
         z-index: 1;
+        box-shadow: 0 -160px 300px rgba(1, 1, 1, 0.25) inset;
     }
     .body {
         width: 100%;

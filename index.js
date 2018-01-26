@@ -19,7 +19,7 @@ router
     .use(async (ctx, next) => {
         // 缓存渲染的 html
         if (ctx.app.cache.has(ctx.url)) {
-            console.log(ctx.url, '缓存命中');
+            console.log(ctx.url, 'cache hits.'.green);
             return ctx.body = ctx.app.cache.get(ctx.url);
         }
         await next();
@@ -52,13 +52,8 @@ router
         await next();
     })
     .get('/*', async (ctx, next) => {
-        await render(ctx, 'main')
-            .then(html => ctx.body = html)
-            .catch(err => {
-                console.error(err);
-                ctx.status = 500;
-                ctx.body = ctx.app.cache.get('page-500');
-            });
+        const html = render(ctx, 'main');
+        ctx.body = html;
     })
     ;
 
