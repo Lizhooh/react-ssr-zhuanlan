@@ -12,24 +12,43 @@ const get = (...arg) => {
         .catch(err => {
             window.NProgress.done();
         })
-}
+};
 
 export const index = {
     init: () => dispatch => {
-        Promise.all([
-            get(`${origin()}/api/columns/qianduanzhidian`),
-            get(`${origin()}/api/columns/qianduanzhidian/posts`),
-        ]).then(([info, list]) => {
+        get(`/api/recommendations/columns?limit=8`).then(res => {
             dispatch({
                 type: 'index',
+                newState: (state) => ({ ...state, columns: res }),
+            });
+        });
+    },
+    update: (page) => (dispatch) => {
+        get(`/api/recommendations/columns?limit=8&offset=${page + 1}`).then(res => {
+            dispatch({
+                type: 'index',
+                newState: (state) => ({ ...state, columns: res, page: page + 1 }),
+            })
+        })
+    }
+}
+
+export const column = {
+    init: (name) => dispatch => {
+        Promise.all([
+            get(`${origin()}/api/columns/${name}`),
+            get(`${origin()}/api/columns/${name}/posts`),
+        ]).then(([info, list]) => {
+            dispatch({
+                type: 'column',
                 newState: (state) => ({ ...state, info, list, page: 1 })
             });
         });
     },
-    more: (page = 2) => dispatch => {
-        get(`${origin()}/api/columns/qianduanzhidian/posts?offset=${(page - 1) * 10}`).then(res => {
+    more: (name, page = 2) => dispatch => {
+        get(`${origin()}/api/columns/${name}/posts?offset=${(page - 1) * 10}`).then(res => {
             dispatch({
-                type: 'index',
+                type: 'column',
                 newState: (state) => {
                     if (res.length === 0) return {
                         ...state,
@@ -49,7 +68,7 @@ export const index = {
 
 export const detail = {
     init: (id) => (dispatch, getState) => {
-        const { list = []} = getState().index;
+        const { list = []} = getState().column;
         const res = list.find(i => i.slug * 1 === id * 1);
         if (res) {
             dispatch({

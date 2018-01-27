@@ -17,6 +17,9 @@ app.cache.set('page-index', fs.readFileSync('./template/index.html').toString())
 
 router
     .use(async (ctx, next) => {
+        if (/.(jpg|png)$/.test(ctx.url)) {
+            return ctx.status = 304;
+        }
         // 缓存渲染的 html
         if (ctx.app.cache.has(ctx.url)) {
             console.log(ctx.url, 'cache hits.'.green);
@@ -28,24 +31,27 @@ router
         ctx.body = await api.any(ctx.url);
     })
     .get('/', async (ctx, next) => {
+        ctx.state.index = ctx.state.index || {};
+        ctx.state.index.columns = await api.any('/api/recommendations/columns?limit=8');
+        await next();
+    })
+    .get('/column/:name', async (ctx, next) => {
+        const { name } = ctx.params;
         // 初始化数据首页数据
         const [info, list] = await Promise.all([
-            api.any('/api/columns/qianduanzhidian'),
-            api.any('/api/columns/qianduanzhidian/posts'),
+            api.any(`/api/columns/${name}`),
+            api.any(`/api/columns/${name}/posts`),
         ]);
         // 专栏信息, 专栏文章列表
-        ctx.state.index = { info, list };
+        ctx.state.column = { info, list };
         await next();
     })
     .get('/detail/:id', async (ctx, next) => {
-        if (~ctx.url.indexOf('.jpg')) {
-            return ctx.status = 403;
-        }
         // 初始化详细页数据
         const { id } = ctx.params;
         const [data, recommend] = await Promise.all([
             api.any(`/api/posts/${id}`),
-            api.any(`/api/recommendations/posts`)
+            api.any('/api/recommendations/posts')
         ]);
         // 详细信息，推荐列表
         ctx.state.detail = { ...data, recommend };

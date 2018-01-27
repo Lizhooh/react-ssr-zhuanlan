@@ -2,125 +2,169 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { index } from '../redux/actions';
-import { getImageUrl } from '../functions';
-import isEnv from 'is-env';
-import Box from '../components/box';
-import Mark from '../components/mark';
 import { Link } from 'react-router-dom';
+import { getImageUrl, leaveOut, toThousands } from '../functions';
+import isEnv from 'is-env';
 
 class IndexView extends Component {
 
     constructor(props) {
         super(props);
         if (isEnv('browser')) {
-            // 导航回退时，如果没有数据则初始化。
-            const { info, list, page, next } = this.props.state;
-            if (!info || !list) this.props.init();
+            document.body.scrollTop = 0;
+            if (!this.props.state.columns) {
+                this.props.init();
+            }
         }
     }
 
+    update = () => {
+        this.props.update(this.props.state.page);
+    }
+
     render() {
-        const { info, list, page, next } = this.props.state;
-        if (!info || !list) return null;
+        const { columns = []} = this.props.state;
 
         return (
-            <div>
-                <Header className="flex-center flex-column">
-                    <img src={getImageUrl(info.avatar)} className="avatar" />
-                    <h1 className="name">{info.name}</h1>
-                    <p className="intro">{info.intro}</p>
-                    <p className="follow">{info.followersCount} 人关注</p>
+            <Container>
+                <Header image="/static/zhuanlan.svg" className="flex-center">
+                    <img src="/static/logo.png" className="logo" />
+                    <p className="title">随心写作，自由表达</p>
                 </Header>
-                <List className="flex-column">
-                    <Mark text="最新文章" />
-                    <div>
-                        {list.map((item, index) => (
-                            <Box data={item} key={`list-${index}`} to={`/detail/${item.slug}`} />
-                        ))}
-                    </div>
-                    <div className="flex-center">
-                        <button className="more" onClick={_ => this.props.more(page + 1)}>{next}</button>
-                    </div>
-                </List>
-            </div>
+                <Content>
+                    <p className="mark">专栏 · 发现</p>
+                    {columns.map((item, index) => (
+                        <Item key={`item-${item.slug}`} className="flex">
+                            <Link to={`/column/${item.slug}`} className="flex-1 flex-ai-center flex-column">
+                                <img src={getImageUrl(item.avatar)} className="avatar" />
+                                <div className="flex-1 flex-column">
+                                    <div className="flex-1 flex-column">
+                                        <h3>{item.name}</h3>
+                                        <div style={{ flex: 1 }}>{leaveOut(item.description, 25)}</div>
+                                    </div>
+                                    <div className="counts">
+                                        <span>{toThousands(item.followersCount)}人关注</span>
+                                        <span> | {toThousands(item.postsCount)}篇文章</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button className="button">进入专栏</button>
+                                </div>
+                            </Link>
+                        </Item>
+                    ))}
+
+                    <button className="update" onClick={this.update}>换一换</button>
+                </Content>
+            </Container>
         );
     }
 }
 
 export default connect(state => ({ state: state.index }), index)(IndexView);
 
-const Header = styled.div`
-    height: 360px;
-    // background-color: #fafafa;
+const Container = styled.div`
+    background-color: #fcfcfc;
+    padding: 20px;
+    padding-bottom: 100px;
+`;
 
-    .avatar {
-        width: 100px;
-        height: 100px;
-        border-radius: 100%;
-        margin-bottom: 22px;
-    }
-    .name {
-        font-size: 20px;
-        line-height: 28px;
-    }
-    .intro {
+const Header = styled.div`
+    height: 420px;
+    background: url(${p => p.image}) center center no-repeat;
+    background-size: 960px 720px;
+    position: relative;
+
+    .logo {
         margin-top: 12px;
+        margin-left: -6px;
+        width: 127px;
+        height: 178px;
     }
-    .follow {
-        margin-top: 8px;
-        color: #888;
+
+    .title {
+        letter-spacing: .5em;
+        font-size: 18px;
+        line-height: 24px;
+        position: absolute;
+        bottom: 30px;
+    }
+`;
+
+const Content = styled.div`
+    margin: 0 auto;
+    width: 904px;
+    text-align: center;
+    &::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    .mark {
+        font-weight: bold;
+        position: relative;
+        margin: 30px auto;
+        &::after, &::before {
+            background-color: #ccc;
+            content: "";
+            position: absolute;
+            height: 1px;
+            width: 200px;
+            left: 200px;
+            top: 50%;
+        }
+        &::after {
+            left: auto;
+            right: 200px;
+        }
+    }
+    .update {
+        margin-top: 50px;
+        border: 1px solid #555;
+        padding: 0.3em 1.2em;
+        border-radius: 5px;
+        background-color: #fff;
+    }
+`;
+
+const Item = styled.div`
+    box-shadow: 0 8px 18px rgba(1, 1, 1, 0.06);
+    background-color: #fff;
+    width: 206px;
+    height: 258px;
+    margin: 10px;
+    float: left;
+    padding: 18px;
+    > a { margin: 0; padding: 0 }
+
+    h3 {
+        color: #444;
+        font-size: 16px;
+        margin: 16px 0 8px;
+        & ~ div{
+            color: #818181;
+            font-size: 14px;
+            overflow: hidden;
+        }
+    }
+    .counts {
+        height: 30px;
+        color: #818181;
         font-size: 14px;
     }
-`;
 
-const List = styled.div`
-    width: 100%;
-    max-width: 680px;
-    margin: 12px auto;
-    padding: 8px 0 20px;
-
-    button.more {
-        background-color: #f9f9f9;
-        color: #777;
-        border-radius: 3px;
-        padding: 0.3em 1.2em;
-        outline: none;
-        &:hover {
-            background-color: #f7f7f7;
-        }
-        &:active {
-            background-color: #f1f1f1;
-        }
-    }
-`;
-
-const Item = styled(Link) `
-    cursor: pointer;
-    color: #656565;
-    margin: 16px 0;
-    line-height: 1.55;
-
-    > div {
-        word-break: break-all !important;
-    }
-    .title {
-        font-weight: bold;
-        margin: 8px 0;
-        font-size: 20px;
-        color: #333;
-        line-height: 1.4;
-    }
-    .image {
-        width: 240px;
-        height: 180px;
-        border-radius: 3px;
-        margin: 12px 8px;
-    }
     .avatar {
-        width: 30px;
-        height: 30px;
+        width: 48px;
+        height: 48px;
         border-radius: 100%;
-        margin-right: 12px;
     }
-    a { color: #767676 }
+
+    .button {
+        background-color: #fff;
+        padding: 0.3em 1.2em;
+        border-radius: 5px;
+        color: #50c87e;
+        border: 1px solid #50c87e;
+    }
 `;
+

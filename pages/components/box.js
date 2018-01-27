@@ -7,12 +7,12 @@ import { Link } from 'react-router-dom';
 export default ({ data, to }) => (
     <Item className="flex" to={to}>
         <div>
-            <img src={data.titleImage} className="image" />
+            {data.titleImage && <img src={data.titleImage} className="image" />}
         </div>
         <div className="flex-column flex-1" style={{ margin: '0 8px' }}>
             <div className="title">{onlyspace(data.title)}</div>
             <div>
-                {onlyspace(data.content.replace(/<\/?[^>]*>/gim, '').slice(0, 120)) + '......  '}
+                {onlyspace(data.content.replace(/<\/?[^>]*>/g, '').slice(0, 120)) + '......  '}
                 <span style={{ color: '#aaa' }}>查看全文</span>
             </div>
             <div className="flex-ai-center" style={{ padding: '6px 0' }}>

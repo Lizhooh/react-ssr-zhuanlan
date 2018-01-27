@@ -13,8 +13,8 @@ class DetailView extends Component {
     constructor(props) {
         super(props);
         if (isEnv('browser')) {
-            document.body.scrollTop = 0;
             this.props.init(this.props.match.params.id);
+            setTimeout(() => document.body.scrollTop = 0, 0);
         }
     }
 
@@ -35,7 +35,7 @@ class DetailView extends Component {
         const id2 = nextProps.match.params.id;
         if (id1 !== id2) {
             this.props.init(id2);
-            document.body.scrollTop = 0;
+            setTimeout(() => document.body.scrollTop = 0, 0);
         }
     }
 
@@ -85,7 +85,7 @@ class DetailView extends Component {
 export default connect(state => ({ state: state.detail }), detail)(DetailView);
 
 const Header = styled.div`
-    height: 100vh;
+    height: ${p => p.image ? '100vh' : '180px'} ;
     background: url(${p => p.image}) center center no-repeat;
     background-size: cover;
     color: #f6f6f6;
@@ -95,9 +95,14 @@ const Header = styled.div`
         position: absolute;
         top: 0; bottom: 0;
         left: 0; right: 0;
-        background-color: rgba(1, 1, 1, 0.24);
+        background-color: rgba(1, 1, 1, 0.2);
         z-index: 1;
-        box-shadow: 0 -160px 300px rgba(1, 1, 1, 0.25) inset;
+        ${p => p.image ? `
+            box-shadow: 0 -160px 300px rgba(1, 1, 1, 0.25) inset;
+        `: `
+            color: #333;
+            background-color: #f8f8f8;
+        `}
     }
     .body {
         width: 100%;
@@ -124,18 +129,37 @@ const Content = styled.div`
     margin: 10px auto;
     line-height: 1.7;
     padding: 30px 8px;
+    font-size: 16px;
 
+    u {
+        text-decoration: none;
+        padding-bottom: 1px;
+        border-bottom: 1px solid;
+    }
+    strong {
+        color: #333;
+        margin: 0 3px;
+    }
     blockquote {
-        padding-left: 12px;
+        font-size: 95%;
+        background-color: #f9f9f9;
+        padding-right: 8px;
+        padding-left: 8px;
         border-left: 4px solid #f2f3f4;
         color: #333;
         margin: 0;
         margin-left: 4px;
     }
-
+    figure {
+        text-align: center;
+    }
     img {
+        border-radius: 3px;
         max-width: 100%;
-        padding: 10px;
+        margin: 10px;
+        &[src *= 'data:image'] {
+            display: none;
+        }
     }
 `;
 
