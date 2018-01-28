@@ -10,7 +10,8 @@ export default [
         path: '/',
         exact: true,
         component: Index,
-    }, {
+    },
+    {
         path: '/column/:name',
         component: Column,
     },

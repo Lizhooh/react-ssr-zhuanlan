@@ -5,3 +5,4 @@ npm-debug.log
 *.log
 *.json
 .cache
+public/main.js

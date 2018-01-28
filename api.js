@@ -28,6 +28,7 @@ export default {
             return res;
         }
         catch (err) {
+            console.error(err);
             return { error: err.message };
         }
     },
