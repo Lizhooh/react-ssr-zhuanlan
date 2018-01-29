@@ -33,29 +33,33 @@ class IndexView extends Component {
                 </Header>
                 <Content>
                     <p className="mark">专栏 · 发现</p>
-                    {columns.map((item, index) => (
-                        <Item key={`item-${item.slug}`} className="flex">
-                            <Link to={`/column/${item.slug}`} className="flex-1 flex-ai-center flex-column">
-                                <img src={getImageUrl(item.avatar)} className="avatar" />
-                                <div className="flex-1 flex-column">
+                    <div>
+                        {columns.map((item, index) => (
+                            <Item key={`item-${item.slug}`} className="flex">
+                                <Link to={`/column/${item.slug}`} className="flex-1 flex-ai-center flex-column">
+                                    <img src={getImageUrl(item.avatar)} className="avatar" />
                                     <div className="flex-1 flex-column">
-                                        <h3>{item.name}</h3>
-                                        <div style={{ flex: 1 }}>{leaveOut(item.description, 25)}</div>
+                                        <div className="flex-1 flex-column">
+                                            <h3>{item.name}</h3>
+                                            <div style={{ flex: 1 }}>{leaveOut(item.description, 25)}</div>
+                                        </div>
+                                        <div className="counts">
+                                            <span>{toThousands(item.followersCount)}人关注</span>
+                                            <span> | {toThousands(item.postsCount)}篇文章</span>
+                                        </div>
                                     </div>
-                                    <div className="counts">
-                                        <span>{toThousands(item.followersCount)}人关注</span>
-                                        <span> | {toThousands(item.postsCount)}篇文章</span>
+                                    <div>
+                                        <button className="button">进入专栏</button>
                                     </div>
-                                </div>
-                                <div>
-                                    <button className="button">进入专栏</button>
-                                </div>
-                            </Link>
-                        </Item>
-                    ))}
-
-                    <button className="update" onClick={this.update}>换一换</button>
+                                </Link>
+                            </Item>
+                        ))}
+                    </div>
                 </Content>
+
+                <div style={{ textAlign: 'center' }}>
+                    <button className="update" onClick={this.update}>换一换</button>
+                </div>
             </Container>
         );
     }
@@ -67,6 +71,14 @@ const Container = styled.div`
     background-color: #fcfcfc;
     padding: 20px;
     padding-bottom: 100px;
+
+    .update {
+        margin-top: 50px;
+        border: 1px solid #555;
+        padding: 0.3em 1.2em;
+        border-radius: 5px;
+        background-color: #fff;
+    }
 `;
 
 const Header = styled.div`
@@ -117,13 +129,6 @@ const Content = styled.div`
             left: auto;
             right: 200px;
         }
-    }
-    .update {
-        margin-top: 50px;
-        border: 1px solid #555;
-        padding: 0.3em 1.2em;
-        border-radius: 5px;
-        background-color: #fff;
     }
 `;
 
