@@ -21,3 +21,9 @@ yarn
 npm start # http://127.0.0.1:3000
 ```
 
+### 注意
+React 16 SSR 有些改变：
+- React 16 服务端渲染不支持`错误边界`和`Portal`。
+- ReactDOM.render() 改为 ReactDOM.hydrate()。
+- React 16 不需要通过编译获得最佳性能。
+
