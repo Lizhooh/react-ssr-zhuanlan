@@ -24,7 +24,23 @@ class DetailView extends Component {
             const imgs = content.querySelectorAll('img');
             imgs.forEach(i => {
                 if (i.getAttribute('data-original')) {
+                    // 设置 url
                     i.setAttribute('src', i.getAttribute('data-original'));
+                    // 设置 zoom
+                    i.onclick = function (event) {
+                        // 创建 zoom 层 <div className="image-zoom"><img /></div>
+                        const div = document.createElement('div');
+                        div.appendChild(i.cloneNode(true));
+                        div.setAttribute('class', 'image-zoom');
+                        div.onclick = e => {
+                            document.body.removeChild(div);
+                            document.body.style = '';
+                        }
+                        document.body.appendChild(div);
+                        setTimeout(() => {
+                            document.body.style = 'overflow: hidden;';
+                        }, 0);
+                    }
                 }
             });
         }
