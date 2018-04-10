@@ -7,6 +7,7 @@ import onlyspace from 'only-space';
 import { getImageUrl } from '../functions';
 import Box from '../components/box';
 import Mark from '../components/mark';
+import RecommeBox from '../components/recomme-box';
 
 class DetailView extends Component {
 
@@ -87,11 +88,15 @@ class DetailView extends Component {
                     id="content"
                     dangerouslySetInnerHTML={{ __html: data.content }}
                     />
-                <Footer>
-                    <Mark text="推荐阅读" />
-                    {(data.recommend || []).map((item, index) => (
-                        <Box data={item} key={`recommend-${index}`} to={`/detail/${item.slug}`} />
-                    ))}
+                <Footer className="flex flex-column flex-ai-center">
+                    <div style={{ margin: '0 auto', width: 680 }}>
+                        <Mark text="推荐阅读" />
+                    </div>
+                    <div className="recommes flex">
+                        {(data.recommend || []).slice(0, 4).map((item, index) => (
+                            <RecommeBox data={item} key={`recommend-${index}`} to={`/detail/${item.slug}`} />
+                        ))}
+                    </div>
                 </Footer>
             </div>
         );
@@ -182,8 +187,11 @@ const Content = styled.div`
 const Footer = styled.div`
     height: 200px;
     width: 100%;
-    max-width: 680px;
     margin: 0 auto;
+    margin-bottom: 50px;
+    height: 360px;
+    background-color: #f6f6f6;
+    padding: 20px;
 
     img.image {
         width: 192px !important;

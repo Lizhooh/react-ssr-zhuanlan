@@ -105,13 +105,13 @@ pre {
     border-radius: 2px;
     box-shadow: 1px 20px 30px rgba(1, 1, 1, 0.18);
     transform: scale(0.6);
-    animation: image-zoom-img-start 0.32s ease-out;
+    animation: image-zoom-img-start 0.22s ease-out;
     animation-fill-mode: both;
     cursor: zoom-out;
 }
 
 @keyframes image-zoom-img-start {
-    0% { transform: scale(0.6) }
+    0% { transform: scale(0.75) }
     100% { transform: scale(1) }
 }
 

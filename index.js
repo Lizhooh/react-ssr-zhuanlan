@@ -18,7 +18,7 @@ app.cache.set('page-index', fs.readFileSync('./template/index.html').toString())
 router
     .use(async (ctx, next) => {
         if (/.(jpg|png)$/.test(ctx.url)) {
-            return ctx.status = 304;
+            return ctx.status = 301;
         }
         // 缓存渲染的 html
         if (ctx.app.cache.has(ctx.url)) {
