@@ -38,6 +38,7 @@
         "babel-preset-env": "^1.6.1",
         "babel-preset-latest-node": "^0.4.0",
         "babel-preset-react": "^6.24.1",
+        "babel-preset-stage-1": "^6.24.1",
         "babel-preset-stage-2": "^6.24.1",
         "cross-env": "^5.1.3"
     },
