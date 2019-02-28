@@ -67,3 +67,5 @@ export default {
     recommendArticle,
     recommendColumn,
 };
+
+

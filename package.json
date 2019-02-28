@@ -5,6 +5,7 @@
         "build": "cross-env NODE_ENV=production next build",
         "start": "npm run build && cross-env NODE_ENV=production node index.js"
     },
+
     "dependencies": {
         "is-env": "^2.0.1",
         "isomorphic-fetch": "^2.2.1",
