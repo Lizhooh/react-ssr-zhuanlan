@@ -3,8 +3,9 @@
 React 服务端渲染（SSR）最佳实践 - 仿知乎专栏的 React SSR 应用。
 
 **有几个不同的分支：**
-- master: react + styled-components + next + koa
-- redux: react + styled-components + redux + next + koa
+- `master`：react + styled-components + next + koa
+- `redux`：react + styled-components + redux + next + koa
+- `easy-action`：react + styled-components + redux + redux-easy-action + next + koa
 
 **要点：**
 - 使用 Next，Koa 提供后端服务。
