@@ -2,13 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import onlyspace from 'only-space';
 
-export default ({ title_image, title, author = {} }) => (
+export default ({ titleImage, title, author = {} }) => (
     <Root>
-        <TitleImage src={title_image} />
+        <TitleImage src={titleImage} />
 
         <Title>{onlyspace(title)}</Title>
         <div className='flex-ai-center'>
-            {author.avatar_url && <Avatar src={author.avatar_url} />}
+            {author.avatarUrl && <Avatar src={author.avatarUrl} />}
             <div className='flex-jc-center flex-column'>
                 <Name>{author.name}</Name>
                 <Description>{author.description}</Description>
@@ -23,10 +23,12 @@ const Root = styled.div`
     position: relative;
     width: 700px;
     margin: 0 auto;
+    background-color: #fff;
+    padding: 0 16px;
 `;
 
 const TitleImage = styled.img`
-    width: 690px;
+    width: 100%;
     margin-top: 20px;
     box-shadow: 1px 1px 1px rgba(1, 1, 1, 0.03);
     border-radius: 3px;
@@ -34,7 +36,7 @@ const TitleImage = styled.img`
 
 const Title = styled.div`
     font-size: 24px;
-    margin: 12px 8px;
+    margin: 16px 8px;
     font-weight: bold;
 `;
 

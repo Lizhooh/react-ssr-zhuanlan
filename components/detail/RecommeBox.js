@@ -2,12 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 
-export default ({ title, title_image, author, href }) => (
-    <Link href={href}>
+export default ({ title, title_image, author, href, as }) => (
+    <Link href={href} as={as}>
         <Root>
             {title_image ?
                 <Image src={title_image} /> :
-                <div style={{ height: 123 }} />
+                <div style={{ height: 8 }} />
             }
             <Title>{title}</Title>
             <Footer>

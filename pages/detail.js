@@ -1,26 +1,24 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
-import api from '../api';
 import Mark from '../components/column/Mark';
 import Header from '../components/detail/Header';
 import RecommeBox from '../components/detail/RecommeBox';
 
-export default class DetailView extends Component {
-    static async getInitialProps({ query }) {
+import * as actions from '../stores/actions/detail';
+
+export default connect(
+    state => ({ state: state.detail }),
+)(class DetailView extends Component {
+    static async getInitialProps({ store, query, isServer }) {
         const id = query.id;
-        const [data, recommend] = await Promise.all([
-            api.articleDetail(id),
-            api.recommendArticle(id),
-        ]);
-        return { data, recommend, id };
+        await actions.initStateInServer(id, store);
+        return { id, isServer };
     }
 
-    constructor(props) {
-        super(props);
-        this.componentDidMount = this.componentDidUpdate = this.fixImageUrl;
-    }
-
+    componentDidMount() { this.fixImageUrl() }
+    componentDidUpdate() { this.fixImageUrl() }
     fixImageUrl = () => {
         const content = document.querySelector('#content');
         if (!content) return;
@@ -50,7 +48,11 @@ export default class DetailView extends Component {
     }
 
     render() {
-        const { data, recommend = [] } = this.props;
+        const id = this.props.id;
+        const state = this.props.state[id];
+        if (!state) return null;
+
+        const { data, recommend = [] } = state;
         if (!data) return null;
 
         return (
@@ -79,15 +81,16 @@ export default class DetailView extends Component {
             </div>
         );
     }
-}
+});
 
 const Content = styled.div`
     width: 100%;
-    max-width: 680px;
-    margin: 10px auto;
+    max-width: 700px;
+    margin: 0 auto 10px;
     line-height: 1.7;
     padding: 30px 8px;
     font-size: 16px;
+    background-color: #fff;
 
     u {
         text-decoration: none;
@@ -118,6 +121,12 @@ const Content = styled.div`
         &[src *= 'data:image'] {
             display: none;
         }
+    }
+    p {
+        text-indent: 2em;
+    }
+    p > br {
+        display: none;
     }
 `;
 

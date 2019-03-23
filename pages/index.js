@@ -1,29 +1,24 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
-import api from '../api';
 import Item from '../components/index/Item';
 import Header from '../components/index/Header';
 
-export default class Index extends Component {
-    static async getInitialProps() {
-        return { columns: await api.recommendColumn(1) };
-    }
+import * as actions from '../stores/actions/index';
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            list: this.props.columns,
-        };
-    }
-
-    updateColumn = async (e) => {
-        const res = await api.recommendColumn();
-        this.setState({ list: res });
+export default connect(
+    state => ({ state: state.index }),
+    actions,
+)(class Index extends Component {
+    static async getInitialProps({ store, isServer }) {
+        await actions.initStateInServer(store);
+        return { isServer };
     }
 
     render() {
-        const { list = [] } = this.state;
+        const { list = [] } = this.props.state;
+        const { update } = this.props;
 
         return (
             <Root>
@@ -42,12 +37,12 @@ export default class Index extends Component {
                     </div>
                 </Content>
                 <div style={{ textAlign: 'center' }}>
-                    <button className="update" onClick={this.updateColumn}>换一换</button>
+                    <button className="update" onClick={update}>换一换</button>
                 </div>
             </Root>
         );
     }
-}
+});
 
 const Root = styled.div`
     background-color: #fcfcfc;

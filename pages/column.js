@@ -1,40 +1,29 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
-import api from '../api';
 import Header from '../components/column/Header';
 import Item from '../components/column/Item';
 import Mark from '../components/column/Mark';
 
-export default class Column extends Component {
-    static async getInitialProps({ query }) {
+import * as actions from '../stores/actions/column';
+
+export default connect(
+    state => ({ state: state.column }),
+    actions,
+)(class Column extends Component {
+    static async getInitialProps({ store, query, isServer }) {
         const slug = query.slug;
-        const [info, list] = await Promise.all([
-            api.columnInfo(slug),
-            api.columnPosts(slug),
-        ]);
-        return { info, list, slug };
-    }
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            info: this.props.info || {},
-            list: this.props.list || [],
-            next: '加载更多',
-        };
-    }
-
-    onMore = async () => {
-        const res = await api.columnPosts(this.props.slug, this.state.list.length);
-        this.setState({
-            list: this.state.list.concat(res),
-            next: res.length > 0 ? '加载更多' : '没有更多了',
-        });
+        await actions.initStateInServer(slug, store);
+        return { slug, isServer };
     }
 
     render() {
-        const { info, list, next } = this.state;
+        const { slug, loadmore } = this.props;
+        const state = this.props.state[slug];
+        if (!state) return null;
+
+        const { info, list, next } = state;
 
         return (
             <div>
@@ -52,13 +41,13 @@ export default class Column extends Component {
                         ))}
                     </div>
                     <div className='flex-center'>
-                        <Button onClick={this.onMore}>{next}</Button>
+                        <Button onClick={loadmore}>{next}</Button>
                     </div>
                 </List>
             </div>
         );
     }
-}
+});
 
 const List = styled.div`
     width: 100%;
