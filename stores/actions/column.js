@@ -9,11 +9,12 @@ export const initStateInServer = async (slug, store) => {
 };
 
 export const loadmore = (slug) => async (commit, getState) => {
-    const { list = [] } = getState().column[slug];
-    const res = await api.columnPosts(slug, list.length);
-    commit('column', {
-        list: list.concat(res),
-        next: res.length > 0 ? '加载更多' : '没有更多了',
-    });
+    const data = getState().column[slug];
+    const res = await api.columnPosts(slug, data.list.length);
+
+    data.list = data.list.concat(res);
+    data.next = res.length > 0 ? '加载更多' : '没有更多了';
+
+    commit('column', { [slug]: data });
 };
 

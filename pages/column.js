@@ -41,7 +41,7 @@ export default connect(
                         ))}
                     </div>
                     <div className='flex-center'>
-                        <Button onClick={loadmore}>{next}</Button>
+                        <Button onClick={e => loadmore(slug)}>{next}</Button>
                     </div>
                 </List>
             </div>
