@@ -6,20 +6,21 @@ import Header from '../components/column/Header';
 import Item from '../components/column/Item';
 import Mark from '../components/column/Mark';
 
-import * as actions from '../stores/actions/column';
+import { getAction } from '../stores';
 
 export default connect(
     state => ({ state: state.column }),
-    actions,
 )(class Column extends Component {
     static async getInitialProps({ store, query, isServer }) {
         const slug = query.slug;
-        await actions.initStateInServer(slug, store);
+        const action = getAction('column');
+        await action.initStateInServer(slug, store);
         return { slug, isServer };
     }
 
     render() {
-        const { slug, loadmore } = this.props;
+        const { loadmore } = getAction('column');
+        const { slug } = this.props;
         const state = this.props.state[slug];
         if (!state) return null;
 
@@ -41,7 +42,7 @@ export default connect(
                         ))}
                     </div>
                     <div className='flex-center'>
-                        <Button onClick={loadmore}>{next}</Button>
+                        <Button onClick={e => loadmore(slug)}>{next}</Button>
                     </div>
                 </List>
             </div>

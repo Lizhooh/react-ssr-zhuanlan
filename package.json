@@ -29,7 +29,7 @@
         "react-redux": "^6.0.1",
         "redux": "^4.0.1",
         "redux-diff-logger": "^0.0.9",
-        "redux-easy-action": "^1.0.5",
+        "redux-easy-action": "^1.0.7",
         "redux-store-init": "^2.2.0",
         "styled-components": "^4.1.3"
     },

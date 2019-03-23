@@ -1,41 +1,29 @@
-import Store, { createReducer } from 'redux-store-init';
-import logger from 'redux-diff-logger';
+import Easy, { createModel } from 'redux-easy-action';
 
-// 自定义一个 commit 取代 dispatch
-const commit = (dispatch) => (name, newState) => dispatch({
-    type: name,
-    newState: typeof newState === 'function' ?
-        newState :
-        state => ({ ...state, ...newState }),
-});
+import indexModal from './model/index';
+import detailModal from './model/detail';
+import columnModal from './model/column';
 
-// 自定义的 redux-thunk
-const thunk = ({ dispatch, getState }) => next => action => {
-    if (typeof action === 'function') {
-        return action(commit(dispatch), getState);
-    }
-    return next(action);
-};
+let easy = null;
 
-// create store
 export default (initState = {
     index: { list: [] },
     detail: {},
     column: {},
 }) => {
-    const store = Store({
+    easy = Easy({
         initState: initState,
-        reducers: {
-            index: createReducer('index', initState.index),
-            detail: createReducer('detail', initState.detail),
-            column: createReducer('column', initState.column),
-        },
         devtool: true,
-        applyMiddlewares: [thunk],
+        model: {
+            index: createModel('index', indexModal),
+            detail: createModel('detail', detailModal),
+            column: createModel('column', columnModal),
+        },
     });
-
-    store.commit = commit(store.dispatch);
+    const store = easy.store;
+    store.commit = easy.commit;
 
     return store;
 };
-
+export const getAction = (name) => easy.actions[name];
+export const getModel = (name) => easy.models[name];

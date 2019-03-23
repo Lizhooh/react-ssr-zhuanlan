@@ -6,15 +6,16 @@ import Mark from '../components/column/Mark';
 import Header from '../components/detail/Header';
 import RecommeBox from '../components/detail/RecommeBox';
 
-import * as actions from '../stores/actions/detail';
+import { getAction } from '../stores';
 
 export default connect(
     state => ({ state: state.detail }),
 )(class DetailView extends Component {
     static async getInitialProps({ store, query, isServer }) {
         const id = query.id;
-        await actions.initStateInServer(id, store);
-        return { id, isServer };
+        const action = getAction('detail');
+        await action.initStateInServer(id, store);
+        return { id, isServer, ...action };
     }
 
     componentDidMount() { this.fixImageUrl() }

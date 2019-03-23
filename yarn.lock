@@ -4056,8 +4056,8 @@ react-is@^16.7.0, react-is@^16.8.2:
 
 react-redux@^6.0.1:
   version "6.0.1"
-  resolved "https://registry.yarnpkg.com/react-redux/-/react-redux-6.0.1.tgz#0d423e2c1cb10ada87293d47e7de7c329623ba4d"
-  integrity sha512-T52I52Kxhbqy/6TEfBv85rQSDz6+Y28V/pf52vDWs1YRXG19mcFOGfHnY2HsNFHyhP+ST34Aih98fvt6tqwVcQ==
+  resolved "http://registry.npm.taobao.org/react-redux/download/react-redux-6.0.1.tgz#0d423e2c1cb10ada87293d47e7de7c329623ba4d"
+  integrity sha1-DUI+LByxCtqHKT1H5958MpYjuk0=
   dependencies:
     "@babel/runtime" "^7.3.1"
     hoist-non-react-statics "^3.3.0"
@@ -4139,10 +4139,10 @@ redux-diff-logger@^0.0.9:
   dependencies:
     deep-diff "^0.3.2"
 
-redux-easy-action@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/redux-easy-action/-/redux-easy-action-1.0.5.tgz#6a953cf840e73191fadf93a13663251cfacd9930"
-  integrity sha512-fk4WZaEdGRJYEqdGO//wBJs3ygTG+Nb0vFJpxSPGKOIeXKBtLw3J/VS3GGXzqgH7mcx5C6/t/EMTo/GmZ+jsbg==
+redux-easy-action@^1.0.7:
+  version "1.0.7"
+  resolved "http://registry.npm.taobao.org/redux-easy-action/download/redux-easy-action-1.0.7.tgz?cache=0&other_urls=http%3A%2F%2Fregistry.npm.taobao.org%2Fredux-easy-action%2Fdownload%2Fredux-easy-action-1.0.7.tgz#39aa5e2af33c2e85a4fa581a5062c85bcfcf03c2"
+  integrity sha1-OapeKvM8LoWk+lgaUGLIW8/PA8I=
   dependencies:
     redux-store-init "^2.2.0"
 

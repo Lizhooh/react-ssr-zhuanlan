@@ -5,20 +5,20 @@ import { connect } from 'react-redux';
 import Item from '../components/index/Item';
 import Header from '../components/index/Header';
 
-import * as actions from '../stores/actions/index';
+import { getAction } from '../stores';
 
 export default connect(
     state => ({ state: state.index }),
-    actions,
 )(class Index extends Component {
     static async getInitialProps({ store, isServer }) {
-        await actions.initStateInServer(store);
+        const action = getAction('index');
+        await action.initStateInServer(store);
         return { isServer };
     }
 
     render() {
         const { list = [] } = this.props.state;
-        const { update } = this.props;
+        const { update } = getAction('index');
 
         return (
             <Root>
