@@ -5,9 +5,10 @@ const Next = require('next');
 const fs = require('fs');
 const unit = require('util');
 const fetch = require('isomorphic-fetch');
+const cheerio = require('cheerio');
 
-const port = parseInt(process.env.PORT, 10) || 3000
-const dev = process.env.NODE_ENV !== 'production'
+const port = parseInt(process.env.PORT, 10) || 3000;
+const dev = process.env.NODE_ENV !== 'production';
 
 const app = Next({ dev });
 const handle = app.getRequestHandler();
@@ -26,12 +27,29 @@ router.get('/api/*', async ctx => {
         data = server.cache[url];
     }
     else {
-        data = await fetch(`https://zhuanlan.zhihu.com/${url}`)
-            .then(res => res.json());
+        if (url.indexOf('api/posts') > -1) {
+            // 文章详细页 api 被封了（茬）
+            // https://zhuanlan.zhihu.com/p/45248080
+            const id = url.replace(/.*posts\/(\d+)/, '$1') * 1;
+            const html = await fetch(`https://zhuanlan.zhihu.com/p/${id}`).then(res => res.text());
+            const $ = cheerio.load(html);
+            try {
+                const state = JSON.parse($('#js-initialData').html());
+                data = state.initialState.entities.articles[id];
+            }
+            catch (err) {
+                console.error(err);
+            }
+        }
+        else {
+            data = await fetch(`https://zhuanlan.zhihu.com/${url}`).then(res => res.json());
+        }
+
         // 缓存
         server.cache[url] = data;
         await writeFile('./.json/data.json', JSON.stringify(server.cache));
     }
+
     ctx.body = data;
 });
 

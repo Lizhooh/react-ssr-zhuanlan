@@ -1,18 +1,27 @@
 {
-    "name": "create-next-example-app",
+    "name": "react-ssr-zhuanlan",
+    "author": {
+        "name": "Lizhooh",
+        "email": "lizhoos@foxmail.com"
+    },
+    "repository": {
+        "type": "github",
+        "url": "https://github.com/Lizhooh/react-ssr-zhuanlan"
+    },
     "scripts": {
         "dev": "node index.js",
         "build": "cross-env NODE_ENV=production next build",
         "start": "npm run build && cross-env NODE_ENV=production node index.js"
     },
-
     "dependencies": {
+        "cheerio": "^1.0.0-rc.2",
         "is-env": "^2.0.1",
         "isomorphic-fetch": "^2.2.1",
         "koa": "^2.7.0",
         "koa-logger": "^3.2.0",
         "koa-router": "^7.4.0",
         "next": "^8.0.3",
+        "next-redux-wrapper": "^3.0.0-alpha.2",
         "nprogress": "^0.2.0",
         "only-space": "^1.1.0",
         "react": "^16.8.3",

@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import onlyspace from 'only-space';
 
-export default ({ title_image, title, author = {} }) => (
+export default ({ titleImage, title, author = {} }) => (
     <Root>
-        <TitleImage src={title_image} />
+        <TitleImage src={titleImage} />
 
         <Title>{onlyspace(title)}</Title>
         <div className='flex-ai-center'>
