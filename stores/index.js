@@ -12,13 +12,7 @@ const commit = (dispatch) => (name, newState) => dispatch({
 // 自定义的 redux-thunk
 const thunk = ({ dispatch, getState }) => next => action => {
     if (typeof action === 'function') {
-        try {
-            return action(commit(dispatch), getState);
-        }
-        catch (err) {
-            console.error(err);
-            return getState();
-        }
+        return action(commit(dispatch), getState);
     }
     return next(action);
 };
@@ -27,7 +21,7 @@ const thunk = ({ dispatch, getState }) => next => action => {
 export default (initState = {
     index: { list: [] },
     detail: {},
-    column: { info: {}, list: [] },
+    column: {},
 }) => {
     const store = Store({
         initState: initState,
