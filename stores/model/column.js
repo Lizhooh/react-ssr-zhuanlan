@@ -10,12 +10,12 @@ export default ({ commit, getState }) => ({
         },
     },
 
-    async initStateInServer(slug, store) {
+    async initStateInServer(slug) {
         const [info, list] = await Promise.all([
             api.columnInfo(slug),
             api.columnPosts(slug),
         ]);
-        store.commit('column', { [slug]: { slug, info, list, next: '加载更多' } });
+        commit({ [slug]: { slug, info, list, next: '加载更多' } });
     },
     async loadmore(slug) {
         const data = getState()[slug];

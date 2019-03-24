@@ -11,11 +11,11 @@ import { getAction } from '../stores';
 export default connect(
     state => ({ state: state.detail }),
 )(class DetailView extends Component {
-    static async getInitialProps({ store, query, isServer }) {
+    static async getInitialProps({ query, isServer }) {
         const id = query.id;
         const action = getAction('detail');
-        await action.initStateInServer(id, store);
-        return { id, isServer, ...action };
+        await action.initStateInServer(id);
+        return { id, isServer };
     }
 
     componentDidMount() { this.fixImageUrl() }

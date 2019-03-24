@@ -1,6 +1,6 @@
 import api from '../../api';
 
-export default () => ({
+export default ({ commit }) => ({
     initState: {
         default: {
             id: 0,
@@ -9,11 +9,12 @@ export default () => ({
         },
     },
 
-    async initStateInServer(id, store) {
+    async initStateInServer(id) {
         const [data, recommend] = await Promise.all([
             api.articleDetail(id),
             api.recommendArticle(id),
         ]);
-        store.commit('detail', { [id]: { id, data, recommend } });
+        commit({ [id]: { id, data, recommend } });
     },
 });
+

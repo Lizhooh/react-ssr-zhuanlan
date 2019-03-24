@@ -5,9 +5,9 @@ export default ({ commit }) => ({
         list: [],
     },
 
-    async initStateInServer(store) {
+    async initStateInServer() {
         const res = await api.recommendColumn();
-        store.commit('index', { list: res });
+        commit({ list: res });
     },
     async update() {
         const res = await api.recommendColumn();

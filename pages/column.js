@@ -11,10 +11,10 @@ import { getAction } from '../stores';
 export default connect(
     state => ({ state: state.column }),
 )(class Column extends Component {
-    static async getInitialProps({ store, query, isServer }) {
+    static async getInitialProps({ query, isServer }) {
         const slug = query.slug;
         const action = getAction('column');
-        await action.initStateInServer(slug, store);
+        await action.initStateInServer(slug);
         return { slug, isServer };
     }
 

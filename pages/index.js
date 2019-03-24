@@ -10,9 +10,9 @@ import { getAction } from '../stores';
 export default connect(
     state => ({ state: state.index }),
 )(class Index extends Component {
-    static async getInitialProps({ store, isServer }) {
+    static async getInitialProps({ isServer }) {
         const action = getAction('index');
-        await action.initStateInServer(store);
+        await action.initStateInServer();
         return { isServer };
     }
 
