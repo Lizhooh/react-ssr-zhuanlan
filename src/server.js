@@ -59,6 +59,7 @@ router.get('/api/*', async ctx => {
 
 router.get('/*', async ctx => {
     ctx.res.status = ctx.res.statusCode;
+    ctx.res.redirect = ctx.redirect;
 
     ctx.body = await render({
         req: ctx.req,
