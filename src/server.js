@@ -58,17 +58,23 @@ router.get('/api/*', async ctx => {
 
 
 router.get('/*', async ctx => {
-    ctx.res.status = ctx.res.statusCode;
-    ctx.res.redirect = ctx.redirect;
+    try {
+        ctx.res.status = ctx.res.statusCode;
+        ctx.res.redirect = ctx.redirect;
 
-    ctx.body = await render({
-        req: ctx.req,
-        res: ctx.res,
-        routes,
-        assets,
-        document,
-        store: createStore(), // 将 redux store 传进去
-    });
+        ctx.body = await render({
+            req: ctx.req,
+            res: ctx.res,
+            routes,
+            assets,
+            document,
+            store: createStore(), // 将 redux store 传进去
+        });
+    }
+    catch (err) {
+        console.error(err);
+        ctx.body = 500;
+    }
 });
 
 app
